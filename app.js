@@ -7,11 +7,11 @@ const CFG={
   formEndpoint:"/api/submit",                      // your form backend URL (receives JSON POST)
   turnstileKey:""                       // Cloudflare Turnstile site key (optional, recommended)
 };
-const PAGES=[["Home","index.html"],["Sneak Peek","sneak-peek.html"],["The Ape Den","ape-den.html"],["Roadmap","roadmap.html"],["FAQ","faq.html"],["Whitelist","whitelist.html"]];
-const here=location.pathname.split('/').pop()||'index.html';
-document.querySelector('header').innerHTML=`<div class="wrap"><a class="brand" href="index.html"><img src="logo.png" alt="">Ink Genesis Apes</a>
+const PAGES=[["Home","/"],["Sneak Peek","/sneak-peek"],["The Ape Den","/ape-den"],["Roadmap","/roadmap"],["FAQ","/faq"],["Whitelist","/whitelist"]];
+const here='/'+location.pathname.split('/').pop().replace(/\.html$/,'').replace(/^index$/,'');
+document.querySelector('header').innerHTML=`<div class="wrap"><a class="brand" href="/"><img src="logo.png" alt="">Ink Genesis Apes</a>
 <nav id="nav">${PAGES.map(([n,h])=>`<a href="${h}"${h===here?' aria-current="page"':''}>${n}</a>`).join('')}</nav>
-<a class="btn sm pink" href="whitelist.html">Join the Whitelist</a><button class="menu" aria-label="Menu" onclick="nav.classList.toggle('open')">&#9776;</button></div>`;
+<a class="btn sm pink" href="/whitelist">Join the Whitelist</a><button class="menu" aria-label="Menu" onclick="nav.classList.toggle('open')">&#9776;</button></div>`;
 document.querySelector('footer').innerHTML=`<div class="wrap"><div><b>Ink Genesis Apes</b><br><span style="opacity:.7">First Ape Collection on Ink</span></div>
 <div><a href="https://x.com/${CFG.xHandle}" target="_blank" rel="noopener">X</a>${CFG.telegramUrl?`<a href="${CFG.telegramUrl}" target="_blank" rel="noopener">Telegram</a>`:'<span class="soon">Telegram soon</span>'}</div></div>`;
 
