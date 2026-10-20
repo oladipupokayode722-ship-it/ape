@@ -6,12 +6,16 @@
 <h1>First Ape Collection on Ink</h1>
 <p>2,222 hand-drawn Apes, minting on Ink. Get on the whitelist before the mint opens.</p>
 <div id="countdown"></div>
-<div class="actions"><a class="btn pink" href="/whitelist">Join the Whitelist</a><a class="btn" href="/sneak-peek">See the Sneak Peek</a></div></div>
-<div class="art"><img src="ape-23.webp" alt="An Ape in a red cap and sunglasses with a pizza slice in its mouth"><div class="sticker"><div><b>2,222</b>Apes</div></div></div></section>
-<section class="band"><div class="wrap"><div class="row"><h2>Meet a few Apes</h2><a class="btn" href="/sneak-peek">View the Sneak Peek</a></div>
-<div class="strip"><img src="ape-12.webp" alt="Pink Ape with 3D glasses"><img src="ape-24.webp" alt="Ape blowing bubblegum"><img src="ape-25.webp" alt="Angry Ape showing its teeth"><img src="ape-9.webp" alt="Ape with a lollipop"><img src="ape-45.webp" alt="Ape in a red beanie"></div></div></section>
+<div class="actions"><a class="btn pink" href="/whitelist">Join the Whitelist</a><a class="btn ghost" href="/sneak-peek">See the Sneak Peek</a></div></div>
+<div class="stage"><div class="art"><div class="frame" id="rot"><img src="ape-23.webp" alt="Ape in a red cap and sunglasses with a pizza slice in its mouth"><img src="ape-12.webp" alt="Pink Ape with 3D glasses and a pizza slice"><img src="ape-27.webp" alt="Ape in a red cap and floral shirt with a lollipop"><img src="ape-24.webp" alt="Ape blowing bubblegum"><img src="ape-16.webp" alt="Ape in a camo helmet with cash in its mouth"><img src="ape-25.webp" alt="Angry Ape showing its teeth"></div><div class="sticker"><div><b>2,222</b>Apes</div></div></div><div class="dots" id="dots"></div></div></section>
+
 <section class="wrap sec"><h2>More than a mint</h2>
 <div class="cards"><a class="card c1" href="/ape-den"><h3>The Ape Den</h3><p>Holder rewards, early access, future mints, partner perks and Ape Missions.</p></a>
 <a class="card c2" href="/roadmap"><h3>Roadmap</h3><p>See where the First Ape Collection on Ink is headed.</p></a>
 <a class="card c3" href="/whitelist"><h3>Whitelist</h3><p>Finish three quick X tasks, prove you're human, and claim your spot.</p></a></div></section>
-</main><footer></footer><script src="app.js"></script></body></html>
+</main><footer></footer><script src="app.js"></script><script>(()=>{const s=[...document.querySelectorAll('#rot img')],d=document.getElementById('dots');let i=0,t;
+d.innerHTML=s.map((_,k)=>`<button aria-label="Show Ape ${k+1}"></button>`).join('');const b=[...d.children];
+function go(n){const o=s[i];o.classList.remove('on');o.classList.add('out');setTimeout(()=>o.classList.remove('out'),700);i=(n+s.length)%s.length;s[i].classList.add('on');b.forEach((x,k)=>x.classList.toggle('on',k===i))}
+function play(){clearInterval(t);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)t=setInterval(()=>go(i+1),2800)}
+b.forEach((x,k)=>x.onclick=()=>{go(k);play()});s[0].classList.add('on');b[0].classList.add('on');play();
+document.addEventListener('visibilitychange',()=>document.hidden?clearInterval(t):play())})();</script></body></html>
