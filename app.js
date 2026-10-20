@@ -9,7 +9,7 @@ const CFG={
 };
 const PAGES=[["Home","index.html"],["Sneak Peek","sneak-peek.html"],["The Ape Den","ape-den.html"],["Roadmap","roadmap.html"],["FAQ","faq.html"],["Whitelist","whitelist.html"]];
 const here=location.pathname.split('/').pop()||'index.html';
-document.querySelector('header').innerHTML=`<div class="wrap"><a class="brand" href="index.html"><img src="assets/logo.png" alt="">Ink Genesis Apes</a>
+document.querySelector('header').innerHTML=`<div class="wrap"><a class="brand" href="index.html"><img src="logo.png" alt="">Ink Genesis Apes</a>
 <nav id="nav">${PAGES.map(([n,h])=>`<a href="${h}"${h===here?' aria-current="page"':''}>${n}</a>`).join('')}</nav>
 <a class="btn sm pink" href="whitelist.html">Join the Whitelist</a><button class="menu" aria-label="Menu" onclick="nav.classList.toggle('open')">&#9776;</button></div>`;
 document.querySelector('footer').innerHTML=`<div class="wrap"><div><b>Ink Genesis Apes</b><br><span style="opacity:.7">First Ape Collection on Ink</span></div>
@@ -37,7 +37,7 @@ if(form){
   function newQ(){let i;do i=Math.random()*QS.length|0;while(i===last);last=i;q=QS[i];sel.clear();
     document.getElementById('q').textContent='Select the Ape with '+q[0];
     const c=q[1][Math.random()*q[1].length|0];const ids=[c,...Object.keys(IMG).map(Number).filter(n=>!q[1].includes(n)).sort(()=>Math.random()-.5).slice(0,2)].sort(()=>Math.random()-.5);
-    grid.innerHTML=ids.map(n=>`<button type="button" aria-pressed="false" data-n="${n}"><img src="assets/ape-${n}.webp" alt="${IMG[n]}"></button>`).join('');}
+    grid.innerHTML=ids.map(n=>`<button type="button" aria-pressed="false" data-n="${n}"><img src="ape-${n}.webp" alt="${IMG[n]}"></button>`).join('');}
   grid.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=+b.dataset.n;
     sel.clear();sel.add(n);grid.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
   document.getElementById('refresh').onclick=newQ;newQ();
@@ -51,7 +51,7 @@ if(form){
     if(!ok){m.push('Wrong Ape selected. Try the new challenge.');grid.classList.add('shake');setTimeout(()=>grid.classList.remove('shake'),400);newQ()}
     err.textContent=m.join(' ');if(m.length)return;
     try{if(CFG.formEndpoint){const r=await fetch(CFG.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(f))});if(!r.ok){const j=await r.json().catch(()=>({}));throw j.error||0}}
-      document.getElementById('formbox').innerHTML='<div class="ok"><img src="assets/ape-23.webp" alt=""><h2>You\'re on the list</h2><p style="color:var(--lilac);margin-top:8px">Watch @'+CFG.xHandle+' on X for the mint date.</p></div>'}
+      document.getElementById('formbox').innerHTML='<div class="ok"><img src="ape-23.webp" alt=""><h2>You\'re on the list</h2><p style="color:var(--lilac);margin-top:8px">Watch @'+CFG.xHandle+' on X for the mint date.</p></div>'}
     catch(x){err.textContent=typeof x==='string'?x:'Could not send your entry. Please try again.'}});
 }
 
