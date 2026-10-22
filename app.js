@@ -4,8 +4,8 @@ const CFG={
   xHandle:"ApeonInk",
   firstPostUrl:"https://x.com/ApeonInk", // replace with the first post link
   telegramUrl:"",                       // add when the group is live
-  formEndpoint:"/api/submit",                      // your form backend URL (receives JSON POST)
-  turnstileKey:""                       // Cloudflare Turnstile site key (optional, recommended)
+  formEndpoint:"https://gxkkhgzslqdjmbpkieaj.supabase.co/functions/v1/whitelist", // Supabase function that checks and saves entries
+  turnstileKey:"0x4AAAAAAFgjkHZLdnRSjFC8"                       // PASTE your Cloudflare Turnstile SITE key here (required). Never put the secret key here.
 };
 const PAGES=[["Home","/"],["Sneak Peek","/sneak-peek"],["The Ape Den","/ape-den"],["Roadmap","/roadmap"],["FAQ","/faq"],["Whitelist","/whitelist"]];
 const here='/'+location.pathname.split('/').pop().replace(/\.html$/,'').replace(/^index$/,'');
@@ -27,7 +27,8 @@ if(cd){
 /* whitelist */
 const form=document.getElementById('wlform');
 if(form){
-  const tasks=[["Follow @"+CFG.xHandle,"https://x.com/intent/follow?screen_name="+CFG.xHandle],["Like the first post",CFG.firstPostUrl],["Repost the first post",CFG.firstPostUrl]];
+  const pid=(CFG.firstPostUrl.match(/status\/(\d+)/)||[])[1];
+  const tasks=[["Follow @"+CFG.xHandle,"https://x.com/intent/follow?screen_name="+CFG.xHandle],["Like the first post",pid?"https://x.com/intent/like?tweet_id="+pid:CFG.firstPostUrl],["Repost the first post",pid?"https://x.com/intent/retweet?tweet_id="+pid:CFG.firstPostUrl]];
   const done=new Set();
   document.getElementById('tasks').innerHTML=tasks.map(([l,h],i)=>`<a class="task" href="${h}" target="_blank" rel="noopener" data-i="${i}"><i class="tick"></i><span>${l}</span><b>Open</b></a>`).join('');
   document.querySelectorAll('.task').forEach(a=>a.addEventListener('click',()=>{done.add(a.dataset.i);a.classList.add('done')}));
@@ -44,15 +45,22 @@ if(form){
   if(CFG.turnstileKey){const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js';s.defer=true;document.head.appendChild(s);
     document.getElementById('ts').innerHTML=`<div class="cf-turnstile" data-sitekey="${CFG.turnstileKey}"></div>`}
   form.addEventListener('submit',async e=>{e.preventDefault();const f=new FormData(form),m=[];
+    const h=(f.get('x')||'').trim().replace(/^@/,''),w=(f.get('wallet')||'').trim(),rp=(f.get('repost')||'').trim(),tok=f.get('cf-turnstile-response')||'';
     if(done.size<3)m.push('Complete all three X tasks first.');
-    if(!/^0x[a-fA-F0-9]{40}$/.test(f.get('wallet').trim()))m.push('Enter a valid wallet address (0x followed by 40 characters).');
-    if(!/^https?:\/\/(x|twitter)\.com\/.+\/status\/\d+/.test(f.get('repost').trim()))m.push('Paste the link to your repost.');
+    if(!/^[A-Za-z0-9_]{1,15}$/.test(h))m.push('Enter your X username (letters, numbers or underscores, up to 15 characters).');
+    if(!/^0x[a-fA-F0-9]{40}$/.test(w))m.push('Enter a valid wallet address (0x followed by 40 characters).');
+    const rm=rp.match(/^https?:\/\/(?:www\.|mobile\.)?(?:x|twitter)\.com\/([A-Za-z0-9_]{1,15})\/status\/\d+/i);
+    if(!rm)m.push('Paste the link to your repost.');
+    else if(h&&rm[1].toLowerCase()!==h.toLowerCase())m.push('The repost link must come from your own X account.');
     const ok=sel.size===1&&q[1].includes([...sel][0]);
     if(!ok){m.push('Wrong Ape selected. Try the new challenge.');grid.classList.add('shake');setTimeout(()=>grid.classList.remove('shake'),400);newQ()}
+    if(!tok)m.push('Complete the human check.');
     err.textContent=m.join(' ');if(m.length)return;
-    try{if(CFG.formEndpoint){const r=await fetch(CFG.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(f))});if(!r.ok){const j=await r.json().catch(()=>({}));throw j.error||0}}
+    const btn=form.querySelector('button.pink');btn.disabled=true;
+    try{const r=await fetch(CFG.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({x_handle:h,wallet:w,repost_link:rp,token:tok,website:f.get('website')||''})});
+      if(!r.ok){const j=await r.json().catch(()=>({}));throw j.error||0}
       document.getElementById('formbox').innerHTML='<div class="ok"><img src="ape-23.webp" alt=""><h2>You\'re on the list</h2><p style="color:var(--lilac);margin-top:8px">Watch @'+CFG.xHandle+' on X for the mint date.</p></div>'}
-    catch(x){err.textContent=typeof x==='string'?x:'Could not send your entry. Please try again.'}});
+    catch(x){err.textContent=typeof x==='string'?x:'Could not send your entry. Please try again.';btn.disabled=false;if(window.turnstile)turnstile.reset()}});
 }
 
 /* lightbox */
