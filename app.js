@@ -5,7 +5,7 @@ const CFG={
   firstPostUrl:"https://x.com/ApeonInk", // replace with the first post link
   telegramUrl:"",                       // add when the group is live
   formEndpoint:"https://gxkkhgzslqdjmbpkieaj.supabase.co/functions/v1/whitelist", // Supabase function that checks and saves entries
-  turnstileKey:"0x4AAAAAAFgjkHZLdnRSjFC8"                       // PASTE your Cloudflare Turnstile SITE key here (required). Never put the secret key here.
+  turnstileKey:""                       // PASTE your Cloudflare Turnstile SITE key here (required). Never put the secret key here.
 };
 const PAGES=[["Home","/"],["Sneak Peek","/sneak-peek"],["The Ape Den","/ape-den"],["Roadmap","/roadmap"],["FAQ","/faq"],["Whitelist","/whitelist"]];
 const here='/'+location.pathname.split('/').pop().replace(/\.html$/,'').replace(/^index$/,'');
