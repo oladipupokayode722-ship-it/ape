@@ -2,7 +2,7 @@
 const CFG={
   mintDate:null,                       // e.g. "2026-12-01T18:00:00Z" when announced
   xHandle:"ApeonInk",
-  firstPostUrl:"https://x.com/ApeonInk", // replace with the first post link
+  firstPostUrl:"https://x.com/ApeonInk/status/2115436781638193430", // replace with the first post link
   telegramUrl:"",                       // add when the group is live
   formEndpoint:"https://gxkkhgzslqdjmbpkieaj.supabase.co/functions/v1/whitelist" // Supabase function that checks and saves entries
 };
