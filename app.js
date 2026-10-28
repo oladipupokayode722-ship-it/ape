@@ -4,8 +4,7 @@ const CFG={
   xHandle:"ApeonInk",
   firstPostUrl:"https://x.com/ApeonInk", // replace with the first post link
   telegramUrl:"",                       // add when the group is live
-  formEndpoint:"https://gxkkhgzslqdjmbpkieaj.supabase.co/functions/v1/whitelist", // Supabase function that checks and saves entries
-  turnstileKey:""                       // PASTE your Cloudflare Turnstile SITE key here (required). Never put the secret key here.
+  formEndpoint:"https://gxkkhgzslqdjmbpkieaj.supabase.co/functions/v1/whitelist" // Supabase function that checks and saves entries
 };
 const PAGES=[["Home","/"],["Sneak Peek","/sneak-peek"],["The Ape Den","/ape-den"],["Roadmap","/roadmap"],["FAQ","/faq"],["Whitelist","/whitelist"]];
 const here='/'+location.pathname.split('/').pop().replace(/\.html$/,'').replace(/^index$/,'');
@@ -42,10 +41,8 @@ if(form){
   grid.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const n=+b.dataset.n;
     sel.clear();sel.add(n);grid.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));});
   document.getElementById('refresh').onclick=newQ;newQ();
-  if(CFG.turnstileKey){const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js';s.defer=true;document.head.appendChild(s);
-    document.getElementById('ts').innerHTML=`<div class="cf-turnstile" data-sitekey="${CFG.turnstileKey}"></div>`}
   form.addEventListener('submit',async e=>{e.preventDefault();const f=new FormData(form),m=[];
-    const h=(f.get('x')||'').trim().replace(/^@/,''),w=(f.get('wallet')||'').trim(),rp=(f.get('repost')||'').trim(),tok=f.get('cf-turnstile-response')||'';
+    const h=(f.get('x')||'').trim().replace(/^@/,''),w=(f.get('wallet')||'').trim(),rp=(f.get('repost')||'').trim();
     if(done.size<3)m.push('Complete all three X tasks first.');
     if(!/^[A-Za-z0-9_]{1,15}$/.test(h))m.push('Enter your X username (letters, numbers or underscores, up to 15 characters).');
     if(!/^0x[a-fA-F0-9]{40}$/.test(w))m.push('Enter a valid wallet address (0x followed by 40 characters).');
@@ -54,13 +51,12 @@ if(form){
     else if(h&&rm[1].toLowerCase()!==h.toLowerCase())m.push('The repost link must come from your own X account.');
     const ok=sel.size===1&&q[1].includes([...sel][0]);
     if(!ok){m.push('Wrong Ape selected. Try the new challenge.');grid.classList.add('shake');setTimeout(()=>grid.classList.remove('shake'),400);newQ()}
-    if(!tok)m.push('Complete the human check.');
     err.textContent=m.join(' ');if(m.length)return;
     const btn=form.querySelector('button.pink');btn.disabled=true;
-    try{const r=await fetch(CFG.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({x_handle:h,wallet:w,repost_link:rp,token:tok,website:f.get('website')||''})});
+    try{const r=await fetch(CFG.formEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({x_handle:h,wallet:w,repost_link:rp,website:f.get('website')||''})});
       if(!r.ok){const j=await r.json().catch(()=>({}));throw j.error||0}
       document.getElementById('formbox').innerHTML='<div class="ok"><img src="ape-23.webp" alt=""><h2>You\'re on the list</h2><p style="color:var(--lilac);margin-top:8px">Watch @'+CFG.xHandle+' on X for the mint date.</p></div>'}
-    catch(x){err.textContent=typeof x==='string'?x:'Could not send your entry. Please try again.';btn.disabled=false;if(window.turnstile)turnstile.reset()}});
+    catch(x){err.textContent=typeof x==='string'?x:'Could not send your entry. Please try again.';btn.disabled=false}});
 }
 
 /* lightbox */
