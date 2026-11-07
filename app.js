@@ -2,16 +2,18 @@
 const CFG={
   mintDate:null,                       // e.g. "2026-12-01T18:00:00Z" when announced
   xHandle:"ApeonInk",
-  firstPostUrl:"https://x.com/ApeonInk/status/2115436781638193430", // replace with the first post link
+  siteUrl:"https://apeonink.vercel.app",   // change when the domain is live
+  tagline:"2,222 hand-drawn Apes on Robinhood Chain",   // working tagline, swap when decided
+  firstPostUrl:"https://x.com/ApeonInk/status/2115436781638193430", // REPLACE with the new first post link
   telegramUrl:"",                       // add when the group is live
   formEndpoint:"https://gxkkhgzslqdjmbpkieaj.supabase.co/functions/v1/whitelist" // Supabase function that checks and saves entries
 };
-const PAGES=[["Home","/"],["Sneak Peek","/sneak-peek"],["The Ape Den","/ape-den"],["Roadmap","/roadmap"],["FAQ","/faq"],["Whitelist","/whitelist"]];
+const PAGES=[["Home","/"],["Sneak Peek","/sneak-peek"],["Holder Perks","/holder-perks"],["Roadmap","/roadmap"],["FAQ","/faq"],["Whitelist","/whitelist"]];
 const here='/'+location.pathname.split('/').pop().replace(/\.html$/,'').replace(/^index$/,'');
-document.querySelector('header').innerHTML=`<div class="wrap"><a class="brand" href="/"><img src="logo.png" alt="">Ink Genesis Apes</a>
+document.querySelector('header').innerHTML=`<div class="wrap"><a class="brand" href="/"><img src="logo.png" alt="">The Ape Den</a>
 <nav id="nav">${PAGES.map(([n,h])=>`<a href="${h}"${h===here?' aria-current="page"':''}>${n}</a>`).join('')}</nav>
 <a class="btn sm pink" href="/whitelist">Join the Whitelist</a><button class="menu" aria-label="Menu" onclick="nav.classList.toggle('open')">&#9776;</button></div>`;
-document.querySelector('footer').innerHTML=`<div class="wrap"><div><b>Ink Genesis Apes</b><br><span style="opacity:.7">First Ape Collection on Ink</span></div>
+document.querySelector('footer').innerHTML=`<div class="wrap"><div><b>The Ape Den</b><br><span style="opacity:.7">${CFG.tagline}</span></div>
 <div><a href="https://x.com/${CFG.xHandle}" target="_blank" rel="noopener">X</a>${CFG.telegramUrl?`<a href="${CFG.telegramUrl}" target="_blank" rel="noopener">Telegram</a>`:'<span class="soon">Telegram soon</span>'}</div></div>`;
 
 /* countdown */
@@ -31,8 +33,8 @@ if(form){
   const done=new Set();
   document.getElementById('tasks').innerHTML=tasks.map(([l,h],i)=>`<a class="task" href="${h}" target="_blank" rel="noopener" data-i="${i}"><i class="tick"></i><span>${l}</span><b>Open</b></a>`).join('');
   document.querySelectorAll('.task').forEach(a=>a.addEventListener('click',()=>{done.add(a.dataset.i);a.classList.add('done')}));
-  const IMG={9:'Ape with sunglasses and lollipop',12:'Ape with 3D glasses and pizza',16:'Ape in a camo helmet with cash in its mouth',19:'Ape in a flat cap with cash in its mouth',23:'Ape with red cap, sunglasses and pizza',24:'Ape with bubblegum',25:'Ape showing teeth',27:'Ape in a red cap, sunglasses and floral shirt',45:'Ape with red beanie and bubblegum',61:'Ape with X eyes and a pipe',62:'Ape in a captain hat with a pipe'};
-  const QS=[['pizza in its mouth',[12,23]],['bubblegum',[24,45]],['black sunglasses',[9,23,27]],['a lollipop',[9,27]],['bared teeth',[25]],['a red beanie',[45]],['3D glasses',[12]],['a red baseball cap',[23,27]],['cash in its mouth',[16,19]],['a camo helmet',[16]],['a captain hat',[62]],['a pipe',[61,62]],['X eyes',[61]],['a floral shirt',[27]]];
+  const IMG={9:'Ape with sunglasses and lollipop',12:'Ape with 3D glasses and pizza',16:'Ape in a camo helmet with cash in its mouth',19:'Ape in a flat cap with cash in its mouth',23:'Ape with red cap, sunglasses and pizza',24:'Ape with bubblegum',25:'Ape showing teeth',27:'Ape in a red cap, sunglasses and floral shirt',45:'Ape with red beanie and bubblegum'};
+  const QS=[['pizza in its mouth',[12,23]],['bubblegum',[24,45]],['black sunglasses',[9,23,27]],['a lollipop',[9,27]],['bared teeth',[25]],['a red beanie',[45]],['3D glasses',[12]],['a red baseball cap',[23,27]],['cash in its mouth',[16,19]],['a camo helmet',[16]],['a floral shirt',[27]]];
   let q,sel=new Set(),last=-1;const grid=document.getElementById('grid'),err=document.getElementById('cerr');
   function newQ(){let i;do i=Math.random()*QS.length|0;while(i===last);last=i;q=QS[i];sel.clear();
     document.getElementById('q').textContent='Select the Ape with '+q[0];

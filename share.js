@@ -2,22 +2,22 @@
 const SHARE={apes:[9,12,16,19,23,24,25,27,45],
  note:"Share your Ape on X to lock in your guaranteed spot.",
  captions:[
- "I just registered for an Ape spot on Ink \uD83E\uDD8D\n\nTomorrow might be late for you.\n\nFirst Ape Collection on Ink @ApeonInk",
- "Whitelist spot secured for Ink Genesis Apes \uD83E\uDD8D\n\nFirst Ape Collection on Ink. Don't sleep on this one.\n\n@ApeonInk",
- "Early on the first Ape collection on Ink \uD83E\uDD8D\n\n2,222 hand-drawn Apes. My whitelist spot is in. Is yours?\n\n@ApeonInk",
- "gm Ink \uD83E\uDD8D Just joined the Ink Genesis Apes whitelist.\n\nFirst Ape Collection on Ink. Join before it's too late.\n\n@ApeonInk"]};
+ "I just registered for an Ape spot on Robinhood Chain \uD83E\uDD8D\n\nTomorrow might be late for you.\n\nThe Ape Den @ApeonInk",
+ "Whitelist spot secured for The Ape Den \uD83E\uDD8D\n\n2,222 hand-drawn Apes on Robinhood Chain. Don't sleep on this one.\n\n@ApeonInk",
+ "Early on The Ape Den \uD83E\uDD8D\n\n2,222 hand-drawn Apes on Robinhood Chain. My whitelist spot is in. Is yours?\n\n@ApeonInk",
+ "gm Robinhood Chain \uD83E\uDD8D Just joined The Ape Den whitelist.\n\n2,222 hand-drawn Apes. Join before it's too late.\n\n@ApeonInk"]};
 (()=>{const f=document.querySelector('form');if(!f)return;const host=f.parentElement;let done=false,n=0,file=null,cap='';
 const mobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform));
-const st=document.createElement('style');st.textContent='.shr{margin-top:22px;text-align:center;border-top:3px solid #000;padding-top:22px}.shr img{width:220px;max-width:60%;border:3px solid #000;border-radius:20px;box-shadow:6px 6px 0 var(--pink)}.shr h3{font-size:26px;margin:18px 0 4px}.shr p{color:var(--lilac);margin-bottom:14px}.shr .cap{background:#2a1560;border:3px solid #000;border-radius:14px;padding:12px 14px;font-size:15px;text-align:left;white-space:pre-line;margin-bottom:16px;color:#fff}.shr .btn{margin:4px}.shr .nt{font-size:14px;margin:10px 0 0;min-height:20px}';document.head.appendChild(st);
+const st=document.createElement('style');st.textContent='.shr{margin-top:22px;text-align:center;border-top:3px solid #000;padding-top:22px}.shr img{width:220px;max-width:60%;border:3px solid #000;border-radius:8px 20px 10px 18px;box-shadow:6px 6px 0 var(--pink)}.shr h3{font-size:26px;margin:18px 0 4px}.shr p{color:var(--lilac);margin-bottom:14px}.shr .cap{background:#2a1560;border:3px solid #000;border-radius:14px;padding:12px 14px;font-size:15px;text-align:left;white-space:pre-line;margin-bottom:16px;color:#fff}.shr .btn{margin:4px}.shr .nt{font-size:14px;margin:10px 0 0;min-height:20px}';document.head.appendChild(st);
 function show(){done=true;const b=document.createElement('div');b.className='shr';
 b.innerHTML='<img alt="Your Ape"><h3>Share your Ape</h3><p>'+SHARE.note+'</p><div class="cap"></div><button type="button" class="btn pink go">Share on X</button><button type="button" class="btn sm cp">Copy caption</button><button type="button" class="btn sm nx">Show another Ape</button><p class="nt"></p>';
 host.appendChild(b);const img=b.querySelector('img'),nt=b.querySelector('.nt'),cp=b.querySelector('.cp');
 const set=()=>{let k;do k=SHARE.apes[Math.random()*SHARE.apes.length|0];while(k===n&&SHARE.apes.length>1);n=k;
 cap=SHARE.captions[Math.random()*SHARE.captions.length|0];file=null;nt.textContent='';cp.textContent='Copy caption';img.src='/ape-'+n+'.jpg';b.querySelector('.cap').textContent=cap;
-fetch('/ape-'+n+'.jpg').then(r=>r.blob()).then(bl=>{file=new File([bl],'ink-ape.jpg',{type:'image/jpeg'})}).catch(()=>{})};
+fetch('/ape-'+n+'.jpg').then(r=>r.blob()).then(bl=>{file=new File([bl],'ape-den-ape.jpg',{type:'image/jpeg'})}).catch(()=>{})};
 b.querySelector('.go').onclick=async()=>{
  if(file&&navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],text:cap})}catch(e){}return}
- const d=document.createElement('a');d.href='/ape-'+n+'.jpg';d.download='ink-ape-'+n+'.jpg';document.body.appendChild(d);d.click();d.remove();
+ const d=document.createElement('a');d.href='/ape-'+n+'.jpg';d.download='ape-den-'+n+'.jpg';document.body.appendChild(d);d.click();d.remove();
  nt.textContent='Your Ape is saving to your Downloads. Attach it to your post when X opens.';
  const u='https://x.com/intent/post?text='+encodeURIComponent(cap);
  if(!window.open(u,'xshare',mobile?undefined:'width=620,height=560'))window.open(u,'_blank')};
